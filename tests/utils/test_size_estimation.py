@@ -1,8 +1,7 @@
 import pytest
-from sparkcraft.utils.size_estimation import (
-    df_size_in_bytes_exact,
-    df_size_in_bytes_approximate,
-)
+
+from sparkcraft.utils.size_estimation import df_size_in_bytes_approximate
+from sparkcraft.utils.size_estimation import df_size_in_bytes_exact
 
 
 def test_df_size_in_bytes_exact(spark, random_uniform_df):
