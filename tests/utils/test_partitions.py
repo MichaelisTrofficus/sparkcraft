@@ -1,10 +1,9 @@
-import pytest
 import pyspark.sql.functions as sf
-from sparkcraft.utils.partitions import (
-    remove_empty_partitions,
-    add_partition_id_column,
-    get_partition_count,
-)
+import pytest
+
+from sparkcraft.utils.partitions import add_partition_id_column
+from sparkcraft.utils.partitions import get_partition_count
+from sparkcraft.utils.partitions import remove_empty_partitions
 
 
 def test_count_number_of_empty_partitions(spark, random_uniform_df):

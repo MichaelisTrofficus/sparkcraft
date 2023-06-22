@@ -19,6 +19,8 @@ Changelog = "https://github.com/MichaelisTrofficus/sparkcraft/releases"
 python = "^3.7"
 click = ">=8.0.1"
 pyspark = "^3.4.0"
+nox = "^2023.4.22"
+nox-poetry = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"

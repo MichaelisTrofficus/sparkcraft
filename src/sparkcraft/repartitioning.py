@@ -1,12 +1,13 @@
 import logging
 import math
-from typing import Union, List
+from typing import List
+from typing import Union
 
 from pyspark.sql import DataFrame
 from pyspark.sql._typing import ColumnOrName
-
-from utils.size_estimation import df_size_in_bytes_exact, df_size_in_bytes_approximate
 from utils.partitions import get_quantile_partition_count
+from utils.size_estimation import df_size_in_bytes_approximate
+from utils.size_estimation import df_size_in_bytes_exact
 
 
 def safe_repartition(
