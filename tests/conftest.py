@@ -2,7 +2,7 @@ import pyspark.sql.functions as sf
 import pytest
 from pyspark.sql import SparkSession
 
-from sparkcraft.utils.helpers import get_spark_session
+from sparkcraft.utils import get_spark_session
 
 
 @pytest.fixture(scope="session", autouse=True)

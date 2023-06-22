@@ -1,6 +1,6 @@
 import pytest
 
-from sparkcraft.utils.salting import add_salt_column
+from sparkcraft.joins import add_salt_column
 
 
 @pytest.mark.parametrize("skew_factor", [1, 10, 100])

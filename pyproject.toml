@@ -21,6 +21,13 @@ click = ">=8.0.1"
 pyspark = "^3.4.0"
 nox = "^2023.4.22"
 nox-poetry = "^1.0.2"
+certifi = "2022.12.07"
+dparse = "0.6.2"
+gitpython = "3.1.30"
+markdown-it-py = "2.2.0"
+py = "1.11.0"
+requests = "2.31.0"
+safety = "2.2.0"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"

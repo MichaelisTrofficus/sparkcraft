@@ -1,8 +1,13 @@
+import logging
+import math
 from typing import List
 from typing import Union
 
 import pyspark.sql.functions as sf
 from pyspark.sql import DataFrame
+
+from sparkcraft.utils.size_estimation import df_size_in_bytes_approximate
+from sparkcraft.utils.size_estimation import df_size_in_bytes_exact
 
 
 def count_number_of_non_empty_partitions(iterator):
@@ -73,3 +78,48 @@ def get_quantile_partition_count(
         .count()
         .approxQuantile("count", [quantile], 0.001)[0]
     )
+
+
+def repartition_with_size_estimation(
+    df: DataFrame,
+    partition_cols: Union[str, List[str]] = None,
+    df_sample_perc: float = 0.05,
+    target_size_in_bytes: int = 134_217_728,
+    quantile_count_estimation: float = 0.5,
+):
+    # TODO: Improve this docstring ...
+    """
+    This method repartitions a PySpark DataFrame using size estimation.
+    :param df: A PySpark DataFrame
+    :param partition_cols: List of partition cols
+    :param df_sample_perc: A float representing the percentage of the input DataFrame that will be used
+        to estimate the total size.
+    :param target_size_in_bytes: The target size of the future partitions. Defaults to 128 MB
+    :param quantile_count_estimation: The quantile ...
+    :return: A partitioned DataFrame
+    """
+    if df_sample_perc <= 0 or df_sample_perc > 1:
+        raise ValueError("df_sample_perc must be in the interval (0, 1]")
+
+    if df_sample_perc == 1:
+        logging.info("Using complete DataFrame")
+        df_size_in_bytes = df_size_in_bytes_exact(df)
+    else:
+        logging.info(
+            f"Using sampling percentage {df_sample_perc}."
+            f" Notice the DataFrame size is just an approximation"
+        )
+        df_size_in_bytes = df_size_in_bytes_approximate(df, sample_perc=df_sample_perc)
+
+    if not partition_cols:
+        n_partitions = math.ceil(df_size_in_bytes / target_size_in_bytes)
+    else:
+        n_rows = get_quantile_partition_count(df, quantile=quantile_count_estimation)
+        percentile_partition_size = (df_size_in_bytes / df.count()) * n_rows
+        n_partitions = df_size_in_bytes / percentile_partition_size
+
+    logging.info(
+        f"DataFrame Size: {df_size_in_bytes} | Number of partitions: {n_partitions}"
+    )
+
+    return df.repartition(n_partitions, partition_cols)
