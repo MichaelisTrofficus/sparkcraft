@@ -6,6 +6,8 @@ on:
       - main
       - master
 
+permissions: write-all
+
 jobs:
   labeler:
     runs-on: ubuntu-latest
