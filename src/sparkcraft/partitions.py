@@ -114,16 +114,10 @@ def get_optimal_number_of_partitions(
         estimate_biggest_key_probability: In order to estimate the biggest key (that is, the partition cols key
             that contains the highest number of elements inside to estimate the size of the partitions).
 
-    Raises:
-        ValueError: If `df_sample_perc` is less than or equal to 0 or if it's greater than 1.
-
     Returns:
         The optimal number of partition for the given DataFrame
     """
-    if df_sample_perc <= 0 or df_sample_perc > 1:
-        raise ValueError("`df_sample_perc` must be in the interval (0, 1]")
-
-    if df_sample_perc == 1:
+    if not df_sample_perc:
         df_size_in_bytes = df_size_in_bytes_exact(df)
     else:
         print(
@@ -136,6 +130,10 @@ def get_optimal_number_of_partitions(
         n_partitions = math.ceil(df_size_in_bytes / target_size_in_bytes)
 
     else:
+        partition_cols = (
+            [partition_cols] if type(partition_cols) == str else partition_cols
+        )
+
         # Calculate the number of elements per each partition cols grouping
         keys_count_df = df.groupBy(*partition_cols).count()
         n_unique_keys = keys_count_df.count()
