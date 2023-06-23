@@ -15,3 +15,13 @@ def test_df_size_in_bytes_approximate(spark, random_uniform_df, sample_perc):
     df = random_uniform_df(spark, n_rows=100000, n_cols=1)
     size_in_bytes = df_size_in_bytes_approximate(df, sample_perc)
     assert 700000 <= size_in_bytes <= 900000
+
+
+@pytest.mark.parametrize("sample_perc", [0.0, 1.1])
+def test_df_size_in_bytes_approximate_invalid_sample_perc(
+    spark, random_uniform_df, sample_perc
+):
+    df = random_uniform_df(spark, n_rows=100000, n_cols=1)
+
+    with pytest.raises(ValueError):
+        df_size_in_bytes_approximate(df, sample_perc)
