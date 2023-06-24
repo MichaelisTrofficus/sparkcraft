@@ -2,6 +2,7 @@ import math
 from typing import List
 from typing import Union
 
+import matplotlib.pyplot as plt
 import pyspark.sql.functions as sf
 from pyspark.sql import DataFrame
 
@@ -31,7 +32,7 @@ def remove_empty_partitions(df: DataFrame):
             iterator: An iterator containing each partition
 
         Yields:
-            The number of non empty partitions
+            The number of non-empty partitions
         """
         n = 0
         for _ in iterator:
@@ -60,7 +61,7 @@ def add_partition_id_col(df: DataFrame, partition_id_colname: str = "partition_i
     return df.withColumn(partition_id_colname, sf.spark_partition_id())
 
 
-def get_partition_count_df(df: DataFrame) -> DataFrame:
+def get_partition_records_df(df: DataFrame) -> DataFrame:
     """
     Generates a DataFrame containing the number of elements for each partition. This method
     may be handy when trying to determine if data is skewed.
@@ -74,7 +75,7 @@ def get_partition_count_df(df: DataFrame) -> DataFrame:
     return add_partition_id_col(df).groupBy("partition_id").count()
 
 
-def get_partition_count_distribution(
+def get_partition_records_distribution(
     df: DataFrame, probabilities: List[float], relative_error: float = 0.0
 ) -> List[float]:
     """
@@ -92,10 +93,78 @@ def get_partition_count_distribution(
     Returns:
         A list containing the value for each probability.
     """
-    partition_count_df = get_partition_count_df(df)
-    return partition_count_df.approxQuantile(
+    partition_records_df = get_partition_records_df(df)
+    return partition_records_df.approxQuantile(
         col="count", probabilities=probabilities, relativeError=relative_error
     )
+
+
+def get_keys_records_df(df: DataFrame, keys: Union[str, List[str]]) -> DataFrame:
+    """
+    Creates a DataFrame containing the number of records per each key.
+
+    Args:
+        df: A PySpark DataFrame
+        keys: A col or list of cols from the DataFrame
+
+    Returns:
+        The keys records DataFrame
+    """
+    return df.groupBy(keys).count()
+
+
+def get_keys_records_distribution(
+    df: DataFrame,
+    keys: Union[str, List[str]],
+    probabilities: List[float],
+    relative_error: float = 0.0,
+):
+    """
+    Calculates the distribution of the number of records over the DataFrame keys.
+
+    Args:
+        df: A PySpark DataFrame
+        keys: A col or list of cols from the DataFrame
+        probabilities: The list of probabilities to be shown in the output DataFrame
+        relative_error: The relative target precision. For more information, check PySpark's
+            documentation about `approxQuantile` (https://spark.apache.org/docs/latest/api/python/
+            reference/pyspark.sql/api/pyspark.sql.DataFrame.approxQuantile.html). Defaults to 0.
+            to obtain exact quantiles, but if the operation is too expensive you can increase this
+            value (although the quantile precision will diminish)
+
+    Returns:
+        A list containing the value for each probability.
+    """
+    keys_count_df = get_keys_records_df(df, keys)
+    return keys_count_df.approxQuantile(
+        col="count", probabilities=probabilities, relativeError=relative_error
+    )
+
+
+def plot_partition_records_histogram(df: DataFrame, bins: int):
+    """
+    Helper that plots a histogram of the number of records per partitions. It can help us to
+    determine if a `repartition` operation has generated equally distributed partitions.
+
+    Args:
+        df: A PySpark DataFrame
+        bins: The number of bins
+    """
+    plt.hist(get_partition_records_df(df), bins)
+
+
+def plot_keys_records_histogram(df: DataFrame, keys: Union[str, List[str]], bins: int):
+    """
+    Helper that plots a histogram of the number of records per keys. It can help us to
+    determine if some key (prior to a join for example) is very imbalanced in relation to
+    the others.
+
+    Args:
+        df: A PySpark DataFrame
+        keys: A col or list of cols
+        bins: The number of bins
+    """
+    plt.hist(get_keys_records_df(df, keys), bins)
 
 
 def get_optimal_number_of_partitions(
