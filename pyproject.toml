@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sparkcraft"
-version = "0.0.1"
+version = "0.0.3"
 description = "SparkCraft"
 authors = ["Miguel Otero Pedrido <miguel.otero.pedrido.1993@gmail.com>"]
 license = "MIT"
