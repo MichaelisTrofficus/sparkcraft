@@ -2,7 +2,7 @@ import pyspark.sql.functions as sf
 import pytest
 
 from sparkcraft.partitions import add_partition_id_col
-from sparkcraft.partitions import get_partition_count_df
+from sparkcraft.partitions import get_partition_records_df
 from sparkcraft.partitions import remove_empty_partitions
 
 
@@ -26,5 +26,5 @@ def test_add_partition_id_column(spark, random_uniform_df, partition_id_colname)
 
 def test_get_partition_count(spark, random_uniform_df):
     df = random_uniform_df(spark, n_rows=100, n_cols=1).repartition(10)
-    partition_counts_df = get_partition_count_df(df)
+    partition_counts_df = get_partition_records_df(df)
     assert partition_counts_df.agg(sf.sum("count")).collect()[0][0] == 100
