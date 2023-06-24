@@ -14,9 +14,7 @@ def df_size_in_bytes_exact(df: DataFrame):
     Returns:
         The exact size in bytes
     """
-    df = df.cache().select(
-        df.columns
-    )  # Just force the Spark planner to add the Cache op to the plan
+    df.cache().count()
     size_in_bytes = df._jdf.queryExecution().optimizedPlan().stats().sizeInBytes()
     df.unpersist(blocking=True)
     return size_in_bytes
