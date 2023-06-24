@@ -75,7 +75,7 @@ def get_partition_count_df(df: DataFrame) -> DataFrame:
 
 
 def get_partition_count_distribution(
-    df: DataFrame, probabilities: List[float], relative_error: float = 0.001
+    df: DataFrame, probabilities: List[float], relative_error: float = 0.0
 ) -> List[float]:
     """
     Generates a DataFrame containing
@@ -85,7 +85,9 @@ def get_partition_count_distribution(
         probabilities: The list of probabilities to be shown in the output DataFrame
         relative_error: The relative target precision. For more information, check PySpark's
             documentation about `approxQuantile` (https://spark.apache.org/docs/latest/api/python/
-            reference/pyspark.sql/api/pyspark.sql.DataFrame.approxQuantile.html)
+            reference/pyspark.sql/api/pyspark.sql.DataFrame.approxQuantile.html). Defaults to 0.
+            to obtain exact quantiles, but if the operation is too expensive you can increase this
+            value (although the quantile precision will diminish)
 
     Returns:
         A list containing the value for each probability.
@@ -102,6 +104,7 @@ def get_optimal_number_of_partitions(
     df_sample_perc: float = None,
     target_size_in_bytes: int = 134_217_728,
     estimate_biggest_key_probability: float = 0.95,
+    estimate_biggest_key_relative_error: float = 0.0,
 ):
     """
     This method calculated the optimal number of partitions for the input PySpark DataFrame `df`.
@@ -113,6 +116,8 @@ def get_optimal_number_of_partitions(
         target_size_in_bytes: The target size of each partition (~128MB)
         estimate_biggest_key_probability: In order to estimate the biggest key (that is, the partition cols key
             that contains the highest number of elements inside to estimate the size of the partitions).
+        estimate_biggest_key_relative_error: The relative error of the `estimate_biggest_key_probability` estimation.
+            Defaults to 0. (to obtain exact quantiles), but be careful with this since operation may be very expensive.
 
     Returns:
         The optimal number of partition for the given DataFrame
@@ -145,7 +150,7 @@ def get_optimal_number_of_partitions(
         n_rows_biggest_key = keys_count_df.approxQuantile(
             col="count",
             probabilities=[estimate_biggest_key_probability],
-            relativeError=0.001,
+            relativeError=estimate_biggest_key_relative_error,
         )[0]
 
         biggest_partition_size = (df_size_in_bytes / df.count()) * n_rows_biggest_key
