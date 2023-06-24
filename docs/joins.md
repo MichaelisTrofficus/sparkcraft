@@ -1,6 +1,6 @@
 # joins
 
 ```{eval-rst}
-.. automodule:: src.sparkcraft.joins
+.. automodule:: sparkcraft.joins
    :members:
 ```

@@ -1,6 +1,6 @@
 # partitions
 
 ```{eval-rst}
-.. automodule:: src.sparkcraft.partitions
+.. automodule:: sparkcraft.partitions
    :members:
 ```
