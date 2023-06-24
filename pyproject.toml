@@ -18,6 +18,7 @@ Changelog = "https://github.com/MichaelisTrofficus/sparkcraft/releases"
 [tool.poetry.dependencies]
 python = "^3.9"
 pyspark = "^3.4.1"
+matplotlib = "^3.7.1"
 
 [tool.poetry.dev-dependencies]
 Pygments = ">=2.10.0"
