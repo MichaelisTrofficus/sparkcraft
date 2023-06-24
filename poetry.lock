@@ -360,13 +360,13 @@ files = [
 
 [[package]]
 name = "docutils"
-version = "0.20.1"
+version = "0.19"
 description = "Docutils -- Python Documentation Utilities"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
-    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
+    {file = "docutils-0.19-py3-none-any.whl", hash = "sha256:5e1de4d849fee02c63b040a4a3fd567f4ab104defd8a5511fbbc24a8a017efbc"},
+    {file = "docutils-0.19.tar.gz", hash = "sha256:33995a6753c30b7f577febfc2c50411fec6aac7f7ffeb7c4cfe5991072dcf9e6"},
 ]
 
 [[package]]
@@ -1038,12 +1038,12 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pyspark"
-version = "3.4.0"
+version = "3.4.1"
 description = "Apache Spark Python API"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyspark-3.4.0.tar.gz", hash = "sha256:167a23e11854adb37f8602de6fcc3a4f96fd5f1e323b9bb83325f38408c5aafd"},
+    {file = "pyspark-3.4.1.tar.gz", hash = "sha256:72cd66ab8cf61a75854e5a753f75bea35ee075c3a96f9de4e2a66d02ec7fc652"},
 ]
 
 [package.dependencies]
@@ -1058,13 +1058,13 @@ sql = ["numpy (>=1.15)", "pandas (>=1.0.5)", "pyarrow (>=1.0.0)"]
 
 [[package]]
 name = "pytest"
-version = "7.3.2"
+version = "7.4.0"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.3.2-py3-none-any.whl", hash = "sha256:cdcbd012c9312258922f8cd3f1b62a6580fdced17db6014896053d47cddf9295"},
-    {file = "pytest-7.3.2.tar.gz", hash = "sha256:ee990a3cc55ba808b80795a79944756f315c67c12b56abd3ac993a7b8c17030b"},
+    {file = "pytest-7.4.0-py3-none-any.whl", hash = "sha256:78bf16451a2eb8c7a2ea98e32dc119fd2aa758f1d5d66dbf0a59d69a3969df32"},
+    {file = "pytest-7.4.0.tar.gz", hash = "sha256:b4bf8c45bd59934ed84001ad51e11b4ee40d40a1229d2c79f9c592b0a3f6bd8a"},
 ]
 
 [package.dependencies]
@@ -1319,20 +1319,20 @@ files = [
 
 [[package]]
 name = "sphinx"
-version = "7.0.1"
+version = "6.2.1"
 description = "Python documentation generator"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Sphinx-7.0.1.tar.gz", hash = "sha256:61e025f788c5977d9412587e733733a289e2b9fdc2fef8868ddfbfc4ccfe881d"},
-    {file = "sphinx-7.0.1-py3-none-any.whl", hash = "sha256:60c5e04756c1709a98845ed27a2eed7a556af3993afb66e77fec48189f742616"},
+    {file = "Sphinx-6.2.1.tar.gz", hash = "sha256:6d56a34697bb749ffa0152feafc4b19836c755d90a7c59b72bc7dfd371b9cc6b"},
+    {file = "sphinx-6.2.1-py3-none-any.whl", hash = "sha256:97787ff1fa3256a3eef9eda523a63dbf299f7b47e053cfcf684a1c2a8380c912"},
 ]
 
 [package.dependencies]
 alabaster = ">=0.7,<0.8"
 babel = ">=2.9"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
-docutils = ">=0.18.1,<0.21"
+docutils = ">=0.18.1,<0.20"
 imagesize = ">=1.3"
 importlib-metadata = {version = ">=4.8", markers = "python_version < \"3.10\""}
 Jinja2 = ">=3.0"
@@ -1663,4 +1663,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "0af1bea1d326f6c942a3177c36f94bb3bd914e55e178a59c3c955d229b22df5b"
+content-hash = "ffac66191f3dadf3769cfcd300b72389e4aa3c4f20e64270420b939aebeca565"

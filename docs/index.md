@@ -12,12 +12,25 @@ end-before: <!-- github-only -->
 ---
 hidden:
 maxdepth: 1
+caption: User Guide
 ---
 
 usage
-reference
 contributing
 Code of Conduct <codeofconduct>
 License <license>
 Changelog <https://github.com/MichaelisTrofficus/sparkcraft/releases>
+```
+
+```{toctree}
+---
+hidden:
+maxdepth: 1
+caption: API Reference
+---
+
+utils
+joins
+partitions
+
 ```
