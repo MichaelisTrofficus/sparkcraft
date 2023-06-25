@@ -150,7 +150,7 @@ def plot_partition_records_histogram(df: DataFrame, bins: int):
         df: A PySpark DataFrame
         bins: The number of bins
     """
-    plt.hist(get_partition_records_df(df), bins)
+    plt.hist(get_partition_records_df(df).toPandas()["count"].values, bins)
 
 
 def plot_keys_records_histogram(df: DataFrame, keys: Union[str, List[str]], bins: int):
@@ -164,7 +164,7 @@ def plot_keys_records_histogram(df: DataFrame, keys: Union[str, List[str]], bins
         keys: A col or list of cols
         bins: The number of bins
     """
-    plt.hist(get_keys_records_df(df, keys), bins)
+    plt.hist(get_keys_records_df(df, keys).toPandas()["count"].values, bins)
 
 
 def get_optimal_number_of_partitions(
